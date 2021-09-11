@@ -979,7 +979,7 @@ int CAudioMixer::set_mixer_status(struct controller_type* ctr, const char* str)
 		for (unsigned id=0 ; id < m_max_mixers; id++) if (m_mixers[id]) {
 			audio_queue_t* pQueue = m_mixers[id]->pAudioQueues;
 			m_pVideoMixer->m_pController->controller_write_msg (ctr,
-				"\n"STATUS"audio mixer %u : %s %u %.0lf %.0lf %u %u %u %s",
+				"\n" STATUS "audio mixer %u : %s %u %.0lf %.0lf %u %u %u %s",
 				id, feed_state_string(m_mixers[id]->state),
 				m_mixers[id]->samples,
 				m_mixers[id]->samplespersecond,
@@ -1013,7 +1013,7 @@ int CAudioMixer::set_mixer_status(struct controller_type* ctr, const char* str)
 					fprintf(stderr, "sink source not supported yet for mixer<n");
 				}
 				m_pVideoMixer->m_pController->controller_write_msg (ctr,
-					"\n"STATUS"- source audio %s %2d : %s %u %u 0 %u %u %u %u ",
+					"\n" STATUS "- source audio %s %2d : %s %u %u 0 %u %u %u %u ",
 					pSource->source_type == 1 ? "feed " :
 					  pSource->source_type == 2 ? "mixer" : "unknown",
 					pSource->source_id,
@@ -1037,7 +1037,7 @@ int CAudioMixer::set_mixer_status(struct controller_type* ctr, const char* str)
 			}
 		}
 		m_pVideoMixer->m_pController->controller_write_msg (ctr,
-			"\n"STATUS"\n");
+			"\n" STATUS "\n");
 		return 0;
 
 	}
@@ -3238,7 +3238,7 @@ int32_t CAudioMixer::SamplesNeeded(u_int32_t id)
 	// FIXME. Not sure we deal correctly with wrapping.
 	// On the other hand, 44100 is equal to more than 13 million years
 	if (samples < m_mixers[id]->mixer_sample_count) {
-		fprintf(stderr, "audio mixer %u samples "FUI64" less than sample count "FUI64". "
+		fprintf(stderr, "audio mixer %u samples " FUI64 " less than sample count " FUI64 ". "
 			"Assuming wrapping\n",
 			id, samples, m_mixers[id]->mixer_sample_count);
 		m_mixers[id]->start_time.tv_sec = timenow.tv_sec;
@@ -3248,8 +3248,8 @@ int32_t CAudioMixer::SamplesNeeded(u_int32_t id)
 		return n;
 	}
 	if (m_verbose > 2) fprintf(stderr,
-		"Frame %u - audio mixer %u lacking samples "FUI64" per channel, current "
-		FUI64" should be "FUI64"\n",
+		"Frame %u - audio mixer %u lacking samples " FUI64 " per channel, current "
+		FUI64" should be " FUI64 "\n",
 			SYSTEM_FRAME_NO, id,
 			samples - m_mixers[id]->mixer_sample_count,
 			m_mixers[id]->mixer_sample_count, samples);

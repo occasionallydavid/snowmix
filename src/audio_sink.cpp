@@ -509,7 +509,7 @@ int CAudioSink::set_verbose(struct controller_type* ctr, const char* str)
 		else m_verbose = 1;
 		if (m_pVideoMixer && m_pVideoMixer->m_pController)
 			m_pVideoMixer->m_pController->controller_write_msg (ctr,
-			STATUS"audio sink verbose %s\n"STATUS"\n", m_verbose ? "on" : "off");
+			STATUS"audio sink verbose %s\n" STATUS "\n", m_verbose ? "on" : "off");
 		return 0;
 	}
 	while (isspace(*str)) str++;
@@ -537,7 +537,7 @@ int CAudioSink::set_sink_status(struct controller_type* ctr, const char* str)
 		for (unsigned id=0 ; id < m_max_sinks; id++) if (m_sinks[id]) {
 			audio_queue_t* pQueue = m_sinks[id]->pAudioQueue;
 			m_pVideoMixer->m_pController->controller_write_msg (ctr,
-				"\n"STATUS"audio sink %u : %s %u %.0lf %.0lf %u %u %u %s",
+				"\n" STATUS "audio sink %u : %s %u %.0lf %.0lf %u %u %u %s",
 				id, feed_state_string(m_sinks[id]->state),
 				m_sinks[id]->samples_rec,
 				m_sinks[id]->samplespersecond,
@@ -561,7 +561,7 @@ int CAudioSink::set_sink_status(struct controller_type* ctr, const char* str)
 
 		}
 		m_pVideoMixer->m_pController->controller_write_msg (ctr,
-			"\n"STATUS"\n");
+			"\n" STATUS "\n");
 		return 0;
 
 	}
@@ -3243,7 +3243,7 @@ if (m_sinks[id]->drop_bytes) fprintf(stderr, "DROPPING sink %u %u\n", id, m_sink
 						id, newbuf->seq_no, (u_int32_t) newbuf);
 #else
 #if __WORDSIZE == 64
-                        			"no %u to "FUI64"\n", SYSTEM_FRAME_NO,
+                        			"no %u to " FUI64 "\n", SYSTEM_FRAME_NO,
 						id, newbuf->seq_no, (u_int64_t) newbuf);
 #else
 #error __WORDSIZE not defined to 32 or 64
