@@ -1108,8 +1108,9 @@ int CVideoFeeds::feed_set_idle (struct controller_type *ctr, int id, int timeout
 		}
 
 		/* Load the file into a empty buffer. */
-		buffer = (u_int8_t*) calloc (1, m_pVideoMixer->m_pixel_bytes * feed->width *
-			feed->height);
+		size_t buf_size = m_pVideoMixer->m_pixel_bytes * feed->width *
+			feed->height;
+		buffer = (u_int8_t*) calloc (1, buf_size);
 
 		// Check the buffer for NULL
 		if (!buffer) {
@@ -1117,13 +1118,12 @@ int CVideoFeeds::feed_set_idle (struct controller_type *ctr, int id, int timeout
 				"Failed to get buffer for idle image\n");
 			return 1;
 		}
-		memset(buffer, 1, m_pVideoMixer->m_pixel_bytes * feed->width * feed->height);
+		memset(buffer, 1, buf_size);
 		if (name) {
-			if (read (fd, buffer, m_pVideoMixer->m_block_size) < (signed)
-				(m_pVideoMixer->m_pixel_bytes * feed->width * feed->height)) {
+			if (read (fd, buffer, buf_size) < (signed) buf_size) {
 				m_pVideoMixer->m_pController->controller_write_msg (ctr,
 					"MSG: Unable to read %u bytes from file \"%s\"\n",
-					m_pVideoMixer->m_pixel_bytes * feed->width * feed->height,
+					buf_size,
 					name);
 				free (buffer);
 				return -1;
