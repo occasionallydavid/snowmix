@@ -23,7 +23,7 @@
 #endif
 
 #include "version.h"
-#define BANNER "Snowmix version "SNOWMIX_VERSION".\n"
+#define BANNER "Snowmix version " SNOWMIX_VERSION ".\n"
 #define STATUS "STAT: "
 #define MESSAGE "MSG: "
 #define ANCHOR_SYNTAX "(n | s | e | w | c | ne | nw | se | sw)"

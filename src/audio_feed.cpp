@@ -546,7 +546,7 @@ int CAudioFeed::set_feed_status(struct controller_type* ctr, const char* str)
 		for (unsigned id=0 ; id < m_max_feeds; id++) if (m_feeds[id]) {
 			audio_queue_t* pQueue = m_feeds[id]->pAudioQueues;
 			m_pVideoMixer->m_pController->controller_write_msg (ctr,
-				"\n"STATUS"audio feed %u : %s %u %.0lf %.0lf %u %u %u %s",
+				"\n" STATUS "audio feed %u : %s %u %.0lf %.0lf %u %u %u %s",
 				id, feed_state_string(m_feeds[id]->state),
 				m_feeds[id]->samples_rec,
 				m_feeds[id]->samplespersecond,
@@ -570,7 +570,7 @@ int CAudioFeed::set_feed_status(struct controller_type* ctr, const char* str)
 
 		}
 		m_pVideoMixer->m_pController->controller_write_msg (ctr,
-			"\n"STATUS"\n");
+			"\n" STATUS "\n");
 		return 0;
 
 	}
