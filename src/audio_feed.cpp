@@ -40,13 +40,9 @@
 
 CAudioFeed::CAudioFeed(CVideoMixer* pVideoMixer, u_int32_t max_feeds)
 {
-	m_max_feeds = 0;
+	m_max_feeds = max_feeds;
 	m_feed_count = 0;
-	m_feeds = (audio_feed_t**) calloc(
-		sizeof(audio_feed_t*), max_feeds);
-	if (m_feeds) {
-		m_max_feeds = max_feeds;
-	}
+	m_feeds = (audio_feed_t**) calloc(sizeof(audio_feed_t*), max_feeds);
 	m_pVideoMixer = pVideoMixer;
 	m_verbose = 0;
 	m_animation = 0;
@@ -59,7 +55,6 @@ CAudioFeed::~CAudioFeed()
 		free(m_feeds);
 		m_feeds = NULL;
 	}
-	m_max_feeds = 0;
 }
 
 // audio feed ....
@@ -468,7 +463,7 @@ int CAudioFeed::set_ctr_isaudio(struct controller_type* ctr, const char* str)
 	if (!m_feeds) return 1;
 	while (isspace(*str)) str++;
 	n = sscanf(str, "%u", &id);
-	if (n != 1 || id < 1) return -1;
+	if (n != 1 || id < 1 || id >= m_max_feeds) return -1;
 	if (!m_feeds[id]) {
 		ctr->close_controller = true;
 		if (m_pVideoMixer && m_pVideoMixer->m_pController)
