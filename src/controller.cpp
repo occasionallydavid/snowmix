@@ -92,6 +92,29 @@ CController::CController(CVideoMixer* pVideoMixer, char *init_file)
 	m_longname = NULL;
 	//m_pMonitor = NULL;
 
+	m_command_name				= NULL;
+	m_pCommand				= NULL;
+	m_verbose				= false;
+	m_maxplaces_text			= MAX_STRINGS;
+        m_maxplaces_font			= MAX_FONTS;
+        m_maxplaces_images			= MAX_IMAGES;
+        m_maxplaces_text_places 		= MAX_TEXT_PLACES;
+        m_maxplaces_image_places 		= MAX_IMAGE_PLACES;
+        m_maxplaces_shapes 			= MAX_SHAPES;
+        m_maxplaces_shape_places 		= MAX_SHAPE_PLACES;
+        m_maxplaces_patterns	 		= MAX_PATTERNS;
+        m_maxplaces_audio_feeds			= MAX_AUDIO_FEEDS;
+        m_maxplaces_audio_mixers		= MAX_AUDIO_MIXERS;
+        m_maxplaces_audio_sinks			= MAX_AUDIO_SINKS;
+        m_maxplaces_video_feeds			= MAX_VIDEO_FEEDS;
+        m_maxplaces_virtual_feeds		= MAX_VIRTUAL_FEEDS;
+	m_frame_seq_no				= 0;
+	m_lagged_frames				= 0;
+	m_broadcast				= false;
+	m_control_port				= -1;
+	m_control_connections			= 2;		// The ini file and stdin/stdout/stderr.
+								// Closing the inifile will decrement the count
+
 	if (!pVideoMixer) {
 		fprintf(stderr, "Error: CController was created with pVideoMixer set to NULL\n");
 		exit(1);
@@ -146,28 +169,6 @@ CController::CController(CVideoMixer* pVideoMixer, char *init_file)
 
 		list_add_head (m_pController_list, ctr);
 	}
-	m_command_name				= NULL;
-	m_pCommand				= NULL;
-	m_verbose				= false;
-	m_maxplaces_text			= MAX_STRINGS;
-        m_maxplaces_font			= MAX_FONTS;
-        m_maxplaces_images			= MAX_IMAGES;
-        m_maxplaces_text_places 		= MAX_TEXT_PLACES;
-        m_maxplaces_image_places 		= MAX_IMAGE_PLACES;
-        m_maxplaces_shapes 			= MAX_SHAPES;
-        m_maxplaces_shape_places 		= MAX_SHAPE_PLACES;
-        m_maxplaces_patterns	 		= MAX_PATTERNS;
-        m_maxplaces_audio_feeds			= MAX_AUDIO_FEEDS;
-        m_maxplaces_audio_mixers		= MAX_AUDIO_MIXERS;
-        m_maxplaces_audio_sinks			= MAX_AUDIO_SINKS;
-        m_maxplaces_video_feeds			= MAX_VIDEO_FEEDS;
-        m_maxplaces_virtual_feeds		= MAX_VIRTUAL_FEEDS;
-	m_frame_seq_no				= 0;
-	m_lagged_frames				= 0;
-	m_broadcast				= false;
-	m_control_port				= -1;
-	m_control_connections			= 2;		// The ini file and stdin/stdout/stderr.
-								// Closing the inifile will decrement the count
 }
 
 CController::~CController() {
