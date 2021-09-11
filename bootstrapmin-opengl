@@ -1,0 +1,45 @@
+#!/bin/sh
+
+os=`uname`
+if [ "X$os" = "XDarwin" ] ; then
+  LIBTOOLIZE=glibtoolize
+  prefix=/opt/local
+else
+  LIBTOOLIZE=libtoolize
+  prefix=/usr/local
+fi
+if [ "X$BASH" != X ] ; then
+  echo="echo -e"
+else
+  echo=echo
+fi
+
+aclocal
+autoconf
+$LIBTOOLIZE --force
+automake --add-missing
+
+# SNOWMIX_GLEW="--enable-snowmixglew"
+echo "Do you want to add support for OpenGL in the following ways ?"
+echo "  0: No OpenGL Support (default)"
+echo "  1: OSMesa (CPU Based Off Screen Rendering)"
+echo "  2: GLX (GPU and X11 Rendering)"
+echo "  3: OSMesa and GLX (CPU and GPU and X11 Rendering)"
+$echo "Please select (0/1/2/3/q) : \c"
+read reply
+if [ X$reply = X0 ] ; then
+  ./configure --prefix=$prefix --libdir=$prefix/lib
+  exit
+fi
+if [ X$reply = X1 ] ; then
+  ./configure --prefix=$prefix --libdir=$prefix/lib --enable-snowmixosmesa --enable-snowmixglu --enable-snowmixglut $SNOWMIX_GLEW
+  exit
+fi
+if [ X$reply = X2 ] ; then
+  ./configure --prefix=$prefix --libdir=$prefix/lib --enable-snowmixx11 --enable-snowmixglu --enable-snowmixglut $SNOWMIX_GLEW
+  exit
+fi
+if [ X$reply = X3 ] ; then
+  ./configure --prefix=$prefix --libdir=$prefix/lib --enable-snowmixx11 --enable-snowmixosmesa --enable-snowmixglu --enable-snowmixglut $SNOWMIX_GLEW
+  exit
+fi

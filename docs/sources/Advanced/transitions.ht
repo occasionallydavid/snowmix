@@ -1,0 +1,311 @@
+<div class="content">
+
+	<div class="item">
+
+		<h1>Snowmix Video Transitions.</h1>
+		<div class="descr">Updated for Snowmix 0.5.1.1</div>
+		<br/>
+
+		<p>This guide explain how to use the transition library to create video transitions
+		from one video feed to another. The transition library is a
+		<a href="[HOME]Advanced/libraries.html">Snowmix Library</a> distributed together
+		with the Snowmix source. Currently the library will work with Snowmix version
+		0.5.1, but future versions will require a newer verseion.</p>
+
+		<p>Note that the Snowmix transition library is not distributed with the
+		Snowmix version 0.5.1 distribution. However you can request the files
+		through the <a href="https://sourceforge.net/p/snowmix/discussion/Snowmix_Support_Forum/">Snowmix support forum</a>.</p>
+
+		<p>The video below shows some of the transitions available through the library.</p>
+
+		<div align="center"><iframe width="640" height="360" src="https://www.youtube.com/embed/kkNCtOjsh9c?feature=player_detailpage" frameborder="0" allowfullscreen></iframe></div>
+		<br/>
+		<h3>Overview</h3>
+
+		<ul>
+			<li><a href="#including">Including the Library.</a></li>
+			<li><a href="#placeholders">Creating Place Holders.</a></li>
+			<li><a href="#transition">Creating a Transition.</a></li>
+			<li><a href="#listing">Listing Transition Functions.</a></li>
+			<li><a href="#reset">Reset Functions.</a></li>
+			<li><a href="#overlay">Overlaying Transitions.</a></li>
+		</ul>
+	</div>
+
+	<div class="item">
+
+		<h3><a name="including">Including the library.</a></h3>
+		<br/>
+
+			<p>The transition library depends on other libaries to be include
+			before the library itself. The libraries required are the <i>basic-shapes.slib</i>,
+			the <i>system.slib</i> and the <í>feeds.slib</i>. So to include the transition library,
+			the following lines should appear in the ini file <strong>in the listed order</strong>.</p>
+
+			<code>command create Show
+  loop
+command end
+overlay finish Show
+
+include slib/basic-shapes.slib
+include slib/system.slib
+include slib/feeds.slib
+include slib/transitions.slib</code>
+
+			<p>When the library is included (loaded), the library will add a line to the macro
+			associated with the <i>overlay finish</i> command. The library assumes that a macro
+			has been assigned for the <i>overlay finish</i> command. If this is not the case,
+			the library functions may not work correctly. After libraries have been included,
+			the command <i>command list Show</i> can be used to list the content of the macro
+			<i>Show</i>.</p>
+
+			<code>command list Show
+MSG: Command Show has 3 lines of a total of 63 bytes nulterminating included
+MSG:   1: tcl eval Update post 
+MSG:   2: tcl eval TransitionOverlayEnabled 
+MSG:   3: loop 
+MSG: </code>
+
+			<p>If the macro associated with <i>overlay finish</i> is replaced or changed, these
+			lines should be included.</p>
+
+		<div align="right"><a href="">Top</a></div>
+	</div>
+
+	<div class="item">
+
+		<h3><a name="placeholders">Creating Transition Place Holders.</a></h3>
+		<br/>
+
+		<p>To use transitions in Snowmix, at least one transition place holder must be created. This can
+		be done using the following configuration.</p>
+
+		<code>tcl eval TransitionCreate 1 "My Fullscreen Transition" 0 0 $system(width) $system(height)</code>
+
+		<p>The first argument is a unique transition ID number being an integer greater than 0. Usually
+		the numbers 1, 2, 3 .... are used. The function <i>TransitionCreate</i> will create a transition
+		place holder that can be used to display video feeds or images and can be used to perform
+		transitions. When a transition place holder is created, it is by default disabled. To display
+		or overlay the transition place holder, we will later have to enable it. The syntax for the
+		function is as shown below:</p>
+
+		<code>TransitionCreate &lt;transition id> &lt;name> &lt;x> &lt;y> &lt;width> &lt;height></code>
+
+		<p>The argument &lt;x> and &lt;y> is the the place of the upper left corner of the transition
+		place holder and &lt;width> and &lt;height argument is the geometry of the place holder.</p>
+
+		<p>The transition place holder will by default have a Front and a Back source that need to be set.
+		This is shown below here.</p>
+
+		<code>tcl eval TransitionAddSources 1 feed 1 feed 2</code>
+
+		<p>The example above sets the Front source to <i>feed 1</i> and the Back source to </i>feed 2</i>.
+		The command can be used any time later to stage a transition. Assuming the Front and Back sources
+		are <i>feed 1</i> and <i>feed 2</i> and we want to transition to <i>feed 3</i>, we will execute
+		the command:</p>
+
+		<code>tcl eval TransitionAddSources 1 feed 1 feed 3</code>
+
+		<p>This sets the Back source to <i>feed 3</i> and we can then as shown later, request a transition
+		from the Front source to the Back source.</p>
+
+		<p>Now we have set a Front and a Back source for the transition place holder, we can now enable it.
+		This can be done as shown in the example below:</p>
+
+		<code>tcl eval TransitionEnable 1</code>
+
+		<p>This enable transition place holder 1 and since we have set the Front source to be <i>feed 1</i>
+		the video <i>feed 1</i> is now overlayed. This can seen using either the script <i>output2screen</i>
+		executed in another terminal window. Alternatively the combination of using the script <i>output2dummy</i>
+		executed on the command line in another window and the Snowmix command <i>monitor on</i> can also
+		be used.</p>
+
+		<div align="right"><a href="">Top</a></div>
+	</div>
+
+	<div class="item">
+
+		<h3><a name="transition">Creating a Transition.</a></h3>
+		<br/>
+
+		<p>Now we have created the transition place holder, enabled it and used one of the method listed above
+		to see the result, we can now create the first transition.</p>
+
+		<p>The first transition we will create is a transition, where we will turn of the Back source and fade down the Front source. To do that
+		we will use the command <i>TransitionSetup</i>. The function has the following syntax:</p>
+
+		<code>TransitionSetup &lt;transition id> &lt;transition steps> &lt;pre functions> &lt;step functions> &lt;post functions></code>
+
+		<p>The first argument it the unique transition ID. The second argument is the number of steps or frame
+		periods the transition will take. After this follow 3 arguments being a list of pre functions,
+		a list of step functions and finally a list of post functions.</p>
+
+		<p>When the transition start, the functions listed in the pre function list will be executed
+		once. Then for &lt;steps> frame periods, the functions listed in the step function list will
+		be executed. When the last step is reached, the functions list in the post function list
+		will be executed once.</p>
+
+		<p>The code listed below will create the transition fading to black turning of the Back source
+		and fading the Front source down.</p>
+
+		<code>tcl eval TransitionSetup 1 30 "Transition_SetBackOff" "Transition_FadeFrontDown" ""</code>
+
+		<p>We se we use the transition place holder id "1" and the number of steps are 30. This means
+		the transition will take 1 second to execute if the system framerate has been set to 30. The
+		pre funtion list contain the function name "Transition_SetBackOff". This will turn off the
+		back source. If we did not do that, then fading down the front source would reveal the Back
+		source. Nothing wrong in that, but that was not set as the scope of the transition.</p>
+
+		<p>The step funtion list contains the function Transition_FadeFrontDown. This will fade
+		down the alpha for the front source in 30 small steps over the next 30 frame periods. The
+		post function list is empty, so nothing will be done there.</p>
+
+		<p>Now we have setup the transition, we can now execute it. This is done in the example below:</p>
+
+		<code>tcl eval TransitionRun 1</code>
+
+		<p>The transition will now run for the next 30 frame periods. The two example lines can be
+		concatenated to this:</p>
+
+		<code>tcl eval TransitionSetup 1 30 "Transition_SetBackOff" "Transition_FadeFrontDown" "" ; TransitionRun 1</code>
+
+		<p>It is now worth mentioning, that the transition place holder is in a mode, where both the Front
+		and the Back source are faded down (ie. their alpha value is 0). We can now choose to fade up
+		the Back source and switch front and back sources. This is shown below:</p>
+
+		<code>tcl eval TransitionSetup 1 30 "" "Transition_FadeBackUp" "Transition_SwitchFrontBack" ; TransitionRun 1</code>
+
+		<p>Here we see that as step function we have chosen to fade up the Back source. As a post
+		function we will switch the Front source (faded down - alpha is 0) and the Back source
+		(faded up - alpha is 1). After this we are back to normal, where the Front source
+		is now displayed (alpha > 0) and the Back source is not (alpha is 0). The command examples
+		could be combined to the following:</p>
+
+		<code>tcl eval TransitionSetup 1 30 "Transition_SetBackOff" "Transition_FadeFrontDown Transition_FadeBackUp" "Transition_SwitchFrontBack" ; TransitionRun 1</code>
+
+		<div align="right"><a href="">Top</a></div>
+	</div>
+
+	<div class="item">
+
+		<h3><a name="listing">Listing Transition Functions.</a></h3>
+		<br/>
+
+		<p>In the previous section it was shown how to create a transition using the
+		function <i>TransitionSetup</i> and lists of transitions functions. The command
+		<i>TransitionListFunctions</i> can be used to list the transition functions
+		available. Below is shown the functions available.</p>
+
+		<code>tcl eval TransitionListFunctions
+MSG: Transition functions : count 40 
+MSG: -  1 FadeBackDown              : Fade the back down 
+MSG: -  2 FadeBackUp                : Fade the back up 
+MSG: -  3 FadeFrontDown             : Fade the front down 
+MSG: -  4 FadeFrontUp               : Fade the front up 
+MSG: -  5 FrontCircleBotClipCCW     : Clip circle at bottom with angle going from 0 to 2PI counter clockwise 
+MSG: -  6 FrontCircleBotClipCW      : Clip circle at bottom with angle going from 0 to 2PI clockwise 
+MSG: -  7 FrontCircleClipCCW        : Clip circle with angle going from 0 to 2PI counter clockwise 
+MSG: -  8 FrontCircleClipCW         : Clip circle with angle going from 0 to 2PI clockwise 
+MSG: -  9 FrontCircleDoubleClipCW   : Clip circle with double opposite angles going from 0 to PI clockwise 
+MSG: - 10 FrontCircleDoubleClipCW   : Clip circle with double opposite angles going from 0 to PI counter clockwise 
+MSG: - 11 FrontCircleTopClipCCW     : Clip circle at top with angle going from 0 to 2PI counter clockwise 
+MSG: - 12 FrontCircleTopClipCW      : Clip circle at top with angle going from 0 to 2PI clockwise 
+MSG: - 13 MoveBackDownIn            : Move back down and in from top. 
+MSG: - 14 MoveBackDownOut           : Move back down and out. 
+MSG: - 15 MoveBackLeftIn            : Move back in from left. 
+MSG: - 16 MoveBackLeftOut           : Move back out to left. 
+MSG: - 17 MoveBackRightIn           : Move back in from right. 
+MSG: - 18 MoveBackRightOut          : Move back out to the right. 
+MSG: - 19 MoveBackUpIn              : Move back up and in from below. 
+MSG: - 20 MoveBackUpOut             : Move back up and out. 
+MSG: - 21 MoveFrontDownIn           : Move front down and in from top. 
+MSG: - 22 MoveFrontDownOut          : Move front down and out. 
+MSG: - 23 MoveFrontLeftIn           : Move front in from left. 
+MSG: - 24 MoveFrontLeftOut          : Move front out to left. 
+MSG: - 25 MoveFrontRightIn          : Move front in from right. 
+MSG: - 26 MoveFrontRightOut         : Move front out to the right. 
+MSG: - 27 MoveFrontUpIn             : Move front up and in from below. 
+MSG: - 28 MoveFrontUpOut            : Move front up and out. 
+MSG: - 29 ResetPosition             : Set back position for Front and Back. Usual for post transition. 
+MSG: - 30 ResetRectClip             : Reinstate rectangle clip on Front and Back after non rectangular clipping. Usual for post transition. 
+MSG: - 31 ResetSize                 : Reset size of Front and back to full size. Usual for post transition. 
+MSG: - 32 ScaleBackDown             : Scale Back down from full size to zero 
+MSG: - 33 ScaleBackUp               : Scale Back up from zero to full size 
+MSG: - 34 ScaleFrontDown            : Scale Front down from full size to zero 
+MSG: - 35 ScaleFrontUp              : Scale Front up from zero to full size 
+MSG: - 36 SetBackOff                : Set back alpha to 0. Usual for pre transition 
+MSG: - 37 SetBackOn                 : Set back alpha to 1. Usual for pre transition 
+MSG: - 38 SetFrontOff               : Set front alpha to 0. Usual for pre transition 
+MSG: - 39 SetFrontOn                : Set front alpha to 1. Usual for pre transition 
+MSG: - 40 SwitchFrontBack           : Switch front/back shapes. Usual for post transition 
+MSG: </code>
+
+			<p>Please note that the functions above should be used in conjunction with
+			the <i>TransitionSetup</i> function.</p>
+		<div align="right"><a href="">Top</a></div>
+	</div>
+	<div class="item">
+		<h3><a name="reset">Reset Functions.</a></h3>
+		<br/>
+		<p>Reset functions purpose is to is to reset a transition place holder back to a
+		known state.</p>
+
+		<p>Assume we have used a transition function that change the size of either the
+		Front or the Back source, then as one of the post functions, we should add the
+		<i>ResetSize</i> function. The functions such as <i>ScaleFrontDown</i> and
+		<i>ScaleBackUp</i> will need <i>ResetSize</i> as one of the post functions.</p>
+
+		<p>If we have used a transition function that changes the position of either
+		the Front or the Back source, then as one of the post functions we should add
+		the <i>ResetPosition</i> function. All the <i>MoveOut</i> functions will need
+		<i>ResetPosition</i> as one of its post functions.</p>
+
+		<p>If we have used a transition function that uses another clip geometry than
+		a plain rectangle, then as one of the post functions, we should add the
+                <i>ResetRectClip</i> function. The functions such as <i>FrontCircle...</i> will
+		need <i>ResetrectClip</i> as one of its post functions.</p>
+
+		<p>While not a <i>reset</i> function, it is worth mentioning that many transitions
+		that manipulate the Front source, could be position, clipping, alpha or other, to
+		end displaying the Back source should add the <i>SwitchFrontBack</i> function to
+		the list of post functions ending up switching the Front and the Back source and
+		as a result of the transition ends up no longer displaying the original Front
+		source but rather displaying the Back source now the Front source.</p>
+
+<div align="right"><a href="">Top</a></div>
+	</div>
+
+	<div class="item">
+		<h3><a name="overlay">Overlaying Transitions.</a></h3>
+		<br/>
+		<p>All enabled transition place holder are automatically overlayed in the order they have
+		been created. The order is reflected in the global variable <i>transition(ids)</i>
+		and the functions to enable and disable a placeholder are <i>TransitionEnable</i> and
+		<i>TransitionDisable</i>. It is permissable to reorder the global variable <i>transition(ids)</i>
+		but numbers <strong>must</strong> be removed from the variable. If a transition place holder
+		needs to be delete, the function <i>TransitionDelete</i> can be used.</p>
+
+		<p>Disabled (and for that matter also enabled) transition place holders can be manually
+		overlayed using the tcl function <i>TransitionOverlay</i> from within the macro associated with
+		the snowmix command <i>overlay finish</i>. If the function is used, it must be used with
+		a number of arguments. These are shown below:</p>
+
+		<code># TransitionOverlay &lt;transition id> &lt;x> &lt;y> &lt;width> &lt;height> &lt;alpha>
+
+command addatline Show 3 tcl eval TransitionOverlay 1 0 0 1920 1080 1</code>
+
+		<p>Here we see the macro <i>Show</i> is added at line 3 the line <i>tcl eval TransitionOverlay 1 0 0 1920 1080 1</i>.
+		Assuming the macro <i>Show</i> is associated the <i>overlay finish</i> command, then when this line
+		is executed, the transition place holder 1 is overlayed placing it at 0,0 and with the width
+		1920 and height 1080 and the alpha value 1. The values you use for placement, geometry and alpha
+		can change for each frame or even when used many times for the same frame, change for each such usage.</p>
+		<div align="right"><a href="">Top</a></div>
+	</div>
+	<div class="item">
+		<h3><a name="writing">Writing Your Own Transition Functions.</a></h3>
+		<br/>
+		<p>To be written.</p>
+		<div align="right"><a href="">Top</a></div>
+	</div>
+</div>
+

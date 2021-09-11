@@ -1,0 +1,107 @@
+#!/bin/bash
+
+# Copyright 2013-2020 - Peter Maersk-Moller
+
+if [ "X$BASH" != X ] ; then
+  echo="echo -e"
+else
+  echo=echo
+fi
+
+DNF=yum
+#DNF=dnf
+
+# Packages required for building Snowmix (bc required for scripts for I/O later on)
+BUILD_PACKAGES='gcc gcc-c++ autoconf automake make bc libtool'
+BUILD_PACKAGES+=' SDL-devel libpng-devel pango-devel tcl tcl-devel tk bwidget'
+BUILD_PACKAGES+=' mesa-libOSMesa mesa-libOSMesa-devel freeglut-devel orc-devel'
+
+GST_PACKAGES='gstreamer1 gstreamer1-plugins-base-tools'
+GST_PACKAGES+=' gstreamer1-plugins-base'
+GST_PACKAGES+=' gstreamer1-plugins-good gstreamer1-plugins-good-extras'
+GST_PACKAGES+=' gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free-extras gstreamer1-plugins-bad-freeworld'
+GST_PACKAGES+=' gstreamer1-plugins-ugly'
+GST_PACKAGES+=' gstreamer1-libav'
+# GST_PACKAGES+=' gstreamer-plugins-bad gstreamer-plugins-bad-free-extras gstreamer-plugins-bad-nonfree'
+# GST_PACKAGES+=' gstreamer-plugins-ugly gstreamer-ffmpeg'
+
+AddRPM()
+{
+	osversion=`grep '^VERSION_ID=' /etc/os-release | cut -f2 -d= | sed 's/\"//g'`
+	if [ 1$osversion -lt 120 ] ; then
+           echo "OS Version not detected. Cannot add RPM for rpmfusion.org"
+	   exit 1
+	fi
+	echo "Adding ROM for free and nonfree rpmfusion-free-release-$osversion.noarch.rpm"
+	echo "You may have to provide your password for sudo. Do you want to"
+	$echo "add the RPMs (Y/N) ?\c"
+	read reply
+	if [ "X$reply" = Xy -o "X$reply" = XY ] ; then
+		sudo rpm -Uvh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$osversion.noarch.rpm
+		sudo rpm -Uvh http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$osversion.noarch.rpm
+	fi
+}
+Add_GStreamer()
+{
+	echo "Downloading and installing the following packages for GStreamer : $GST_PACKAGES."
+	echo "You may have to provide your password for sudo. Do you want to"
+	$echo "install the GStreamer packages (Y/N) ?\c"
+	read reply
+	if [ "X$reply" = Xy -o "X$reply" = XY ] ; then
+		sudo dnf install $GST_PACKAGES
+	fi
+}
+
+
+while true ; do
+  echo
+  echo "It is recommended that you update your Fedora installation first."
+  echo "You may have to provide your password for sudo. Do you want to"
+  $echo "update your Fedora installation with $DNF update (Y/N) ?\c"
+  read reply
+  if [ "X$reply" != X ] ; then break ; fi
+done
+if [ X$reply = Xy -o X$reply = XY ] ; then
+  echo $DNF update
+  sudo $DNF update
+fi
+
+while true ; do
+  echo
+  echo "To build Snowmix, you will need some essential build tools and libraries."
+  echo "The following packages are needed : $BUILD_PACKAGES"
+  echo "Do you want to install these packages if they are not already installed?"
+  $echo "Update and install (y=yes, n=no, q=quit) ? \c"
+  read reply
+  if [ X$reply = Xy -o X$reply = XY ] ; then break ; fi
+  if [ X$reply = Xn -o X$reply = XN ] ; then BUILD_PACKAGES="" ; break ; fi
+  if [ X$reply = Xq -o X$reply = XQ ] ; then exit ; fi
+done
+if [ "X$BUILD_PACKAGES" != X ] ; then
+  echo update and install
+  sudo $DNF install $BUILD_PACKAGES
+fi
+
+AddRPM
+
+Add_GStreamer
+
+exit 0
+
+# #########################################################################################
+# Anything below here is stuff needed to be cleaned up. Please ignore
+
+# sudo dnf install gstreamer-plugins-bad gstreamer-plugins-bad-free-extras gstreamer-plugins-bad-nonfree gstreamer-plugins-ugly gstreamer-ffmpeg gstreamer1-libav gstreamer1-plugins-bad-free-extras gstreamer1-plugins-bad-freeworld gstreamer1-plugins-base-tools gstreamer1-plugins-good-extras gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-good gstreamer1-plugins-base gstreamer1
+
+
+# Things to do for Fedora 23
+sudo rpm -Uvh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-23.noarch.rpm
+sudo rpm -Uvh http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-23.noarch.rpm
+sudo dnf install gstreamer-plugins-bad gstreamer-plugins-bad-free-extras gstreamer-plugins-bad-nonfree gstreamer-plugins-ugly gstreamer-ffmpeg gstreamer1-libav gstreamer1-plugins-bad-free-extras gstreamer1-plugins-bad-freeworld gstreamer1-plugins-base-tools gstreamer1-plugins-good-extras gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-good gstreamer1-plugins-base gstreamer1
+
+
+#GST_PACKAGES='gstreamer gstreamer-devel gstreamer-ffmpeg gstreamer-plugins-bad gstreamer-plugins-bad-free gstreamer-plugins-bad-free-extras gstreamer-plugins-bad-nonfree gstreamer-plugins-base gstreamer-plugins-espeak gstreamer-plugins-fc gstreamer-plugins-good gstreamer-plugins-good-extras gstreamer-plugins-ugly gstreamer-tools'
+#su -c '$DNF localinstall --nogpgcheck http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm'
+#sudo $DNF install gstreamer-plugins-bad-nonfree
+#
+#sudo $DNF install $GST_PACKAGES

@@ -1,0 +1,126 @@
+#!/bin/bash
+
+# Copyright 2013-2020 - Peter Maersk-Moller
+
+if [ "X$BASH" != X ] ; then
+  echo="echo -e"
+else
+  echo=echo
+fi
+
+
+# Packages required for compiling
+BUILD_PACKAGES='autoconf automake make libtool gcc gcc-c++ pkg-config bc'
+BUILD_PACKAGES+=' libSDL-1_2-0 SDL-devel libpng16 libpng16-devel libcairo2 cairo-devel libpango-1_0-0 pango-devel'
+BUILD_PACKAGES+=' tcl tk tcllib tcl-devel bwidget libOSMesa-devel libglut3 freeglut-devel'
+
+# Gstreamer required packages
+GSTPACKAGES='gstreamer gstreamer-utils gstreamer-plugins-base gstreamer-plugins-good'
+GSTPACKAGES+=' gstreamer-plugins-bad gstreamer-plugins-ugly gstreamer-plugins-qt gstreamer-plugins-libav'
+NON_FREE_PACKAGES='ffmpeg lame'
+NON_FREE_PACKAGES+=' gstreamer-plugins-bad gstreamer-plugins-ugly gstreamer-plugins-ugly-orig-addon gstreamer-plugins-libav'
+NON_FREE_PACKAGES+=' libavdevice56 libavdevice58 libdvdcss2 vlc-codecs'
+
+osversion=`grep '^VERSION_ID=' /etc/os-release | cut -f2 -d= | sed 's/\"//g'`
+osname=`grep '^NAME=' /etc/os-release | cut -f2 -d= | sed 's/\"//g' | sed 's/ /_/g'`_
+
+AddRepo()
+{
+	if [ X"$osname" = XopenSUSE_Tumbleweed_ ] ; then
+		osname=openSUSE_Tumbleweed
+		osversion=""
+	fi
+	$echo "Do you want to add the the follwing repos for non-free codecs for GSTREAMER etc."
+	$echo " - repo : http://packman.inode.at/suse/$osname$osversion/ packman"
+	$echo " - repo : http://opensuse-guide.org/repo/$osname$osversion/ dvd"
+	$echo "Install repos (Y/N)? \c"
+	read reply
+	if [ "X$reply" = XY -o "X$reply" = Xy ] ; then
+		sudo zypper addrepo -f http://packman.inode.at/suse/$osname$osversion/ packman
+		sudo zypper addrepo -f http://opensuse-guide.org/repo/$osname$osversion/ dvd
+	else
+		$echo "If the repos are not already installed, you may fail installing the non free codecs. Press return to continue \c"
+		read reply
+	fi
+}
+
+AddNonFreeCodecs()
+{
+	$echo "You will need the following codecs/packages from repos for non free codecs installed previously. I hope you installed them."
+	$echo " - $NON_FREE_PACKAGES"
+	$echo "Install non free (patent disputed) codecs/packages (Y/N)? \c"
+	read reply
+	if [ "X$reply" = XY -o "X$reply" = Xy ] ; then
+  		sudo zypper install --allow-vendor-change $NON_FREE_PACKAGES
+	else
+		$echo "If the packages are not already installed, you may fail snowmix_demo later on. Press return to continue \c"
+		read reply
+	fi
+}
+
+CheckForCogl()
+{
+	$echo "Checking for gstreamer-plugins-cogl.\c"
+	( while true ; do $echo '.\c' ; sleep 0.3 ; done) & pid=$!
+	cogl=`zypper packages --installed-only | grep gstreamer | grep plugins-cogl | head -1`
+	kill -9 $pid 2>/dev/null
+	echo
+	if [ "X$cogl" != X ] ; then
+		$echo "\nWARNING - WARNING - WARNING - WARNING\n"
+		$echo "gstreamer-plugins-cogl is installed."
+		$echo "autovideosink in gstreamer pipelines may not work."
+	        $echo "if that is the case, either remove the package or"
+		$echo "change VIDEOSINK in outputscreen/av_output2screen in"
+		$echo "scripts directory to glimagesink/ximagesink/xvimagesink"
+		$echo "\nThe command to remove the plugin is:\n\n\tsudo zypper remove gstreamer-plugins-cogl\n"
+		$echo "Press return to continue \c"
+		read reply
+	fi
+
+}
+
+echo
+echo "You will neeed the following packages to build Snowmix"
+echo "Packages : $BUILD_PACKAGES"
+$echo "Do you want to check for packages and install them if they are missing(Y/N)? \c"
+read reply
+if [ "X$reply" = XY -o "X$reply" = Xy ] ; then
+  echo "Checking and installing possibly missing packages. Password may be required."
+  echo sudo zypper install $BUILD_PACKAGES
+  sudo zypper install $BUILD_PACKAGES
+fi
+
+echo
+echo "You will need the following GStreamer packages to input and output from Snowmix."
+echo "Packages : $GSTPACKAGES"
+$echo "Do you want to check for and install them if they are missing(Y/N)? \c"
+read reply
+if [ "X$reply" = XY -o "X$reply" = Xy ] ; then
+  echo "Looking for GStreamer"
+  echo sudo zypper install $GSTPACKAGES
+  sudo zypper install $GSTPACKAGES
+fi
+
+AddRepo
+AddNonFreeCodecs
+CheckForCogl
+
+echo "OpenSUSE done"
+
+exit
+
+sudo zypper addrepo -f http://packman.inode.at/suse/openSUSE_Leap_15.1/ packman
+sudo zypper addrepo -f http://opensuse-guide.org/repo/openSUSE_Leap_15.1/ dvd
+zypper install --allow-vendor-change ffmpeg lame gstreamer-plugins-bad gstreamer-plugins-ugly gstreamer-plugins-ugly-orig-addon gstreamer-plugins-libav libavdevice56 libavdevice58 libdvdcss2 vlc-codecs
+  151  sudo zypper install --allow-vendor-change ffmpeg lame gstreamer-plugins-bad gstreamer-plugins-ugly gstreamer-plugins-ugly-orig-addon gstreamer-plugins-libav libavdevice56 libavdevice58 libdvdcss2 vlc-codecs
+
+NAME="openSUSE Leap"
+VERSION="15.1"
+ID="opensuse-leap"
+ID_LIKE="suse opensuse"
+VERSION_ID="15.1"
+PRETTY_NAME="openSUSE Leap 15.1"
+ANSI_COLOR="0;32"
+CPE_NAME="cpe:/o:opensuse:leap:15.1"
+BUG_REPORT_URL="https://bugs.opensuse.org"
+HOME_URL="https://www.opensuse.org/"

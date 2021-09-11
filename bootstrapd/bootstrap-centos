@@ -1,0 +1,97 @@
+#!/bin/bash
+
+# Copyright 2013-2015 - Peter Maersk-Moller
+
+
+if [ "X$BASH" != X ] ; then
+  echo="echo -e"
+else
+  echo=echo
+fi
+
+
+BUILD_PACKAGES1="gcc gcc-c++ autoconf automake make bc"
+BUILD_PACKAGES1+=" libtool SDL-devel libpng-devel pango-devel tcl tcl-devel tk "
+BUILD_PACKAGES1+=" mesa-libOSMesa freeglut-devel"
+BUILD_PACKAGES2="mesa-libOSMesa-devel"
+BUILD_PACKAGES3="bwidget"
+
+GST_PACKAGES="gstreamer gstreamer-devel gstreamer-tools"
+GST_PACKAGES+=" gstreamer-plugins-base gstreamer-plugins-good gstreamer-plugins-good-extras"
+GST_PACKAGES+=" gstreamer-plugins-bad gstreamer-plugins-bad-free gstreamer-plugins-bad-free-extras gstreamer-plugins-bad-nonfree"
+GST_PACKAGES+=" gstreamer-plugins-espeak gstreamer-plugins-fc plugins-ugly gstreamer-ffmpeg"
+
+while true ; do
+  echo
+  echo "It is recommended that you update your Centos installation first."
+  echo "You may have to provide your password for sudo. Do you want to"
+  $echo "update your Centos installation (Y/N) ?\c"
+  read reply
+  if [ "X$reply" != X ] ; then break ; fi
+done
+if [ X$reply = Xy -o X$reply = XY ] ; then
+  echo yum update
+  sudo yum update
+fi
+
+if [ -f /etc/yum.repos.d/CentOS-PowerTools.repo ] ; then
+  powertools=`grep enabled= /etc/yum.repos.d/CentOS-PowerTools.repo | cut -f2 -d= | awk '{ print $1 }'`
+fi
+if [ X$powertools = X0 ] ; then
+	$echo "Centos repo Powertools is not enabled. You will need that for"
+	$echo "installing libOSMesa devel. You can enable powertools repo in"
+	$echo "the file /etc/yum.repos.d/CentOS-PowerTools.repo."
+else
+	if [ X$powertools = X1 ] ; then
+		$echo "CentOS Powertools repo enabled. Good."
+	else
+		$echo "Unable to check if CentOS Powertools repo is enabled. Okay if CentOS < 8"
+	fi
+	$echo "Press return to continue \c"
+	read reply
+fi
+# Ask to install the BUILD Packages
+for no in 1 2 3 ; do
+  eval BUILD_PACKAGES=\$BUILD_PACKAGES$no
+  while true ; do
+    echo
+    echo "To build Snowmix, you will need some essential build tools and libraries."
+    echo "The following packages are needed : $BUILD_PACKAGES"
+    echo "Do you want to install these packages if they are not already installed?"
+    $echo "Update and install (y=yes, n=no, q=quit) ? \c"
+    read reply
+    if [ X$reply = Xy -o X$reply = XY ] ; then break ; fi
+    if [ X$reply = Xn -o X$reply = XN ] ; then BUILD_PACKAGES="" ; break ; fi
+    if [ X$reply = Xq -o X$reply = XQ ] ; then exit ; fi
+  done
+
+  if [ "X$BUILD_PACKAGES" != X ] ; then
+    echo update and install
+    sudo yum install $BUILD_PACKAGES
+  fi
+done
+
+# We need to figure out where tcl is installed to add BWidget
+DESTDIR=/usr/lib
+for no in 6 7 8 9 5 4 ; do
+	if [ -d /usr/share/tcl8.$no ] ; then
+		DESTDIR=/usr/share/tcl8.$no
+		break
+	fi
+	if [ -d /usr/lib/tcl8.$no ] ; then
+		DESTDIR=/usr/share/tcl8.$no
+		break
+	fi
+	if [ -d /usr/lib64/tcl8.$no ] ; then
+		DESTDIR=/usr/share/tcl8.$no
+		break
+	fi
+done
+. bootstrapd/check_for_tcl_bwidget.sh $DESTDIR
+
+exit 0
+
+su -c 'yum localinstall --nogpgcheck http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm'
+sudo yum install gstreamer-plugins-bad-nonfree
+
+sudo yum install $GST_PACKAGES

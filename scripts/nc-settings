@@ -1,0 +1,54 @@
+#!/bin/bash
+#
+# Copyright 2020 Peter Maersk-Moller
+
+system=`uname -s`
+if [ $system = Darwin ] ; then
+  osvariant=darwin
+else
+  if [ -f /etc/os-release ] ; then
+    osvariant=`grep '^ID=' /etc/os-release | cut -f2 -d= | tr 'A-Z' 'a-z'`
+  else
+    if [ $system = FreeBSD ] ; then
+      osvariant=freebsd
+    else
+      osvariant=unknown
+    fi
+  fi
+fi
+case $osvariant in
+  chakra )
+    NC='nc -q 0'
+  ;;
+    darwin ) 
+    NC='nc'
+  ;;
+  debian ) 
+    NC='nc -q 1'
+  ;;
+  fedora ) 
+    NC='nc'
+  ;;
+  *manjaro* ) 
+    NC='nc -q 0'
+  ;;
+  *mageia* ) 
+    NC='nc -q 1'
+  ;;
+  *opensuse* ) 
+    NC='nc -q 0'
+  ;;
+  ubuntu | *mint* ) 
+    NC='nc -q 0'
+  ;;
+  *mageia* )
+    NC='nc -q 0'
+  ;;
+  freebsd )
+    NC='nc -N'
+  ;;
+  * )
+    NC='nc'
+  ;;
+esac
+

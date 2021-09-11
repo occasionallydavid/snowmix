@@ -1,0 +1,72 @@
+<div class="content">
+	<div class="item">
+
+		<h1>Donations</h1>
+		<div class="descr">Through PayPal or Flattr</div>
+
+
+		<h3>Happy with the Snowmix Video Mixer?</h3>
+		<br/>
+		<p>Snowmix is being developed as an Open Source Project with no funding and based
+		alone on the volounteer work of the developer. The project is being developed
+		to provide the base for Live TV transmissions of rocket launches for another Open
+		Source volounteer based project <a href="http://www.copsub.com/" target="_blank">Copenhagen Suborbitals</a>.</p>
+
+		<p>If you are happy with the Snowmix Video Mixer, please consider making a small
+		donation to help ensure the further development of Snowmix. Whether your donation
+		is 1, 5, 10 or more dollars, all donations are much appreciated.</p>
+
+
+		<p>It is preferred that you donate by <a href="https://www.paypal.com/myaccount/transfer/send" target=_blank">direct transfer to Snowmix.Video@gmail.com through Paypal</a>. The receiver should be Snowmix.Video@gmail.com. Alternatively you can use the following buttons to donate an amount of your own choosing either through PayPal or through Flattr.</p>
+
+		<p><div align="center">
+		<table border=0><tr>
+		<td>
+		  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+		  	<input type="hidden" name="cmd" value="_donations">
+		  	<input type="hidden" name="business" value="snowmix.video@gmail.com">
+		  	<input type="hidden" name="lc" value="GB">
+		  	<input type="hidden" name="item_name" value="Help Develop the Snowmix Video Mixer through your generous and most welcome donation.">
+		  	<input type="hidden" name="no_note" value="0">
+		  	<input type="hidden" name="currency_code" value="USD">
+		  	<input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG_global.gif:NonHostedGuest">
+		  	<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG_global.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online.">
+		  	<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+		  </form>
+		</td>
+		<td>&nbsp;&nbsp;</td>
+		<td><a href="https://flattr.com/submit/auto?fid=51gdd7&url=http%3A%2F%2Fsnowmix.sourceforge.net%2FIntro%2Fdonations.html" target="_blank"><img src="//button.flattr.com/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a>
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		</tr></table>
+		</div>
+		<p>All donations are used 100% to finance further development of Snowmix. While
+		developing is fun, documenting Snowmix to enable others to use Snowmix for free
+		in any meaningful way, is a tedious and laborous work.</p>
+
+		<p>Thank you for consider donating to this project, if not today, then perhaps tomorrow.</p>
+	</div>
+
+	<div class="item">
+
+		<h1>Donation of hardware</h1>
+
+		<p>If you on rare occasions get help and assistance from the author
+		that goes way beyond tips, tricks and directions and you feel this help
+		has a great value for you and if you can afford it, but donating money
+		is not an option, then feel free to donate a thing from this wish list below:</p>
+
+		<ul>
+			<li>HiDes UT100C DVB-T Modulater - Tx only</li>
+			<li>RealTek RTL2832 based DVB-T tuner.</li>
+			<li>Raspberry PI camera.</li>
+			<li>Arduino shields, Ethernet etc.</li>
+			<li>Raspberry Pi - 3</li>
+			<li>Logitech C920 Camera.</li>
+			<li>Soldering Iron of good quality.</li>
+			<li>Stocks of unused electronics</li>
+		</ul>
+	</div>
+</div>

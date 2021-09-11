@@ -1,0 +1,157 @@
+# Snowmix version 0.5.1.1
+
+This is a release of Snowmix 0.5.1 modified to compile and run on newer OS and distro releases.
+You should set the enviroment variable to where SNowmix is installed. For Linux the
+default location is /usr/local/lib/Snowmix-0.5.1.1. For macOS the default location
+if /opt/local/lib/Snowmix-0.5.1.1. Add the following to one of the files
+
+  ~/.profile, ~/.bashrc, ~/.bash_profile etc. depending on your setup.
+
+	export SNOWMIX=/usr/local/lib/Snowmix-0.5.1.1
+or
+	export SNOWMIX=/opt/local/lib/Snowmix-0.5.1.1
+
+After you have run ./bootstrap as many times as it asks you to do, you can run
+./bootstrapmin-opengl to enable OpenGL support if you want that. Then run
+
+	$ make clean
+	$ make
+	$ sudo make install
+
+Then you can run snowmix_demo.
+
+Find more info on https://snowmix.sourceforge.io/
+
+Snowmix 0.5.1.1 has been tested to compile, install and run on the following:
+
+    Linux Ubuntu - All works but see note for OpenGL.
+	Ubuntu 16.04 LTS updated to 16.04.6 LTS (Native and VirtualBox 6.1.10)
+	  - OpenGL Support (glshapes) : CPU based OSMesa and GPU based GLX (X11) works.
+	Ubuntu 18.04 LTS updated to 18.04.x LTS (VirtualBox 6.1.10)
+	  - OpenGL Support (glshapes) : CPU based OSMesa fails. Use GPU based GLX (X11).
+	Ubuntu 20.04 LTS updated to 20.04.x LTS (VirtualBox 6.1.10)
+	  - OpenGL Support (glshapes) : CPU based OSMesa fails. Use GPU based GLX (X11).
+
+    Linux Mint - All works, but see note for OpenGL.
+	Linux Mint 17.3				(VirtualBox 6.1.10)
+	  - OpenGL Support (glshapes) : CPU based OSMesa and GPU based GLX (X11) works.
+	Linux Mint 18.3				(VirtualBox 6.1.10)
+	  - OpenGL Support (glshapes) : CPU based OSMesa and GPU based GLX (X11) works.
+	Linux Mint 19.3				(VirtualBox 6.1.10)
+	  - OpenGL Support (glshapes) : CPU based OSMesa fails. Use GPU based GLX (X11).
+	Linux Mint 20 beta			(VirtualBox 6.1.10)
+	  - OpenGL Support (glshapes) : CPU based OSMesa fails. Use GPU based GLX (X11).
+
+    Linux Debian - All works but see notes for OpenGL.
+	Debian 8.11                             (VirtualBox 6.1.10)
+	  - OpenGL Support (glshapes) : CPU based OSMesa and GPU based GLX (X11) works.
+	Debian 9.3                              (VirtualBox 6.1.10)
+	  - OpenGL Support (glshapes) : CPU based OSMesa and GPU based GLX (X11) works.
+	Debian 10.3                             (VirtualBox 6.1.10)
+	  - OSMesa crashes. Use X11 for OpenGL support
+
+    Linux Fedora - All works, but see note for OpenGL.
+	The bootstrap will now offer to add the rpmfusion.org RPMs
+	and offer to add the GStreamer from rpmfusion.org. Without it snowmix_demo will
+	fail to decode some of the codecs used.
+
+	Fedora Workstation 23 - All works	(VirtualBox 6.1.10)
+	  - For full value, you need to add packages from rpmfusion.org
+	Fedora Workstation 28, 29, 32 - All but OSMesa works	(VirtualBox 6.1.10)
+	  - For full value, you need to add packages from rpmfusion.org
+	  - OpenGL Support (glshapes) : CPU based OSMesa fails. Use GPU based GLX (X11).
+
+    Linux Centos - CentOS works but with limitations.
+	Centos 7.6				(VirtualBox 6.1.10)
+	  - Can compile and run, also OpenGL support for x11 and
+	    OSMesa.
+	  - Missing gstreamer1-libav and aac codecs. As such it can
+	    not run the complete snowmix_demo as demo files contain AAC
+	    audio and H.264 video.
+	  - As a remedy one can compile and installe the missing
+	    gstreamer-libav as well as the faac/fad for GStreamer.
+	Centos 8.1				(VirtualBox 6.1.10)
+	  - You will need to enable PowerTools repo in the file
+	    /etc/yum.repos.d/CentOS-PowerTools.repo
+	    This is needed for OSMesa-devel neded for OpenGL support.
+	  - OpenGL Support (glshapes) : CPU based OSMesa fails. Use GPU based GLX (X11).
+	  - Missing gstreamer1-libav and aac codecs. As such it can
+	    not complete the snowmix_demo as demo files contain AAC
+	    audio and H.264 video.
+	  - Will offer altertive way to install BWidget required for GUI Tools.
+	Centos 8.2.2004				(VirtualBox 6.1.10)
+	  - Same as for CentOS 8.1
+
+    Linux OpenSUSE - All works but see note.
+	OpenSUSE Leap 15.1 All works, but see note. (VirtualBox 6.1.10)
+	  - By default OpenSUSE does not include non-free (patent disputed)
+	    codecs such as AAC/H.264. These are required for the snowmix_demo.
+	    The bootstrap program will offer to add repos and packages
+	    that will fix this, If you do not say yes to adding repos
+	    and packages during running bootstrap, Snowmix will still
+	    compile and work, but the snowmix_demo will not fully work
+	    and you are on your own regarding support for the mentioned
+	    codecs. But you may not need them depending on what you want
+	    to use Snowmix for.
+	  - By default the distro comes with the package gstreamer-plugins-cogl.
+
+		GNU bugs report log #39126
+
+	    GStreamer element autovideosink does not work in VirtualBox
+	    (and possibly elsewhere) with cogl plugin installed. You
+	    will either have to remove the package using this command:
+
+		sudo zypper remove gstreamer-plugins-cogl
+
+	    Alternatively you can avoid using GStreamer element autovideosink
+	    al together AND change the VIDEOSINK setting in scripts/output2screen
+	    and scripts/av_output2screen to one of glimagesink, xvimagesink
+	    or ximagesink depending on your use and installation.
+	    The cogl may work on native hardware. Please test and report back.
+	OpenSUSE Tumbleweed 20200717 - All works, but see note
+	  - Same note as for OpenSUSE Leap on the nonfree codecs.
+	  - Newest Tumbleweed does not have the cogl problem as Leap 15.1
+
+    Linux Mageia - All works
+	Mageia 7.1					(VirtualBox 6.1.10)
+
+    Linux Manjaro - All works except as noted.
+	Manjaro XFCE 20.0.3 minimal.			(VirtualBox 6.1.10)
+	  - OpenGL Support (glshapes) : CPU based OSMesa fails. Use GPU based GLX (X11).
+	  - BWidget is currently not available as packages for Manjaro. The bootstrap
+	    program will offer to download and install BWidget in /usr/lib.
+	    BWidget for tcl/tk is required for GUI tools to work.
+
+    Linux Chakra - All works
+	Chakra 2017.10					(VirtualBox 6.1.10)
+
+    macOS - All works except for limited OpenGL Support. See note on this.
+
+	BigSur		- No yet tested. bootstrap is prepared it may work.
+	Catalina	- compile and works.
+	Mojave		- compile and works.
+	High Sierra	- compile and works.
+	Sierra		- compile and works.
+	Yosemite	- compile and works.
+	El Capitan	- compile and works.
+	Mavericks	- compile and works
+	Mountain Lion	- compile and works:
+
+    	OpenGL (glshapes) on macOS:
+	===========================
+	OSMesa (Off Screen Rendering - CPU based) works for all macOS version
+	albeit it is slow (CPU based).
+
+	GLX (X11 Rendering - GPU based ) is fast, but require an X11 server
+	for macOS. Snowmix has been tested with the free X11 server from
+	XQuartz version 2.7.11 from the website https://www.xquartz.org/
+
+	GLX based rendering does not seem to work with macOS as guest OS on
+	VirtualBox. Snowmix reports wrong pixel formats and may sometime crash.
+	However it did earlier work on Yosemite and Quartz 2.7.something
+	propbably 2.7.7 or earlier.
+
+	GLX has been tested with Sierra, XQuartz and running on a MacbookPro
+	where it often works, but sometimes it does not. This require debugging
+	beyond the scope of this release. So GPU based OpenGL does not work for
+	Snowmix-0.5.1.1 on macOS (may work on older than Sierra).

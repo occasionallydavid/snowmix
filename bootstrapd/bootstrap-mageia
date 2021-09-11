@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Copyright 2020 - Peter Maersk-Moller
+
+if [ "X$BASH" != X ] ; then
+  echo="echo -e"
+else
+  echo=echo
+fi
+   
+BUILD_PACKAGES='gcc make automake libtool bc pkg-config gcc-c++ netcat-openbsd'
+BUILD_PACKAGES+=" SDL12 libSDL-devel libpng-devel libcairo-devel libpango-devel"
+BUILD_PACKAGES+=" osmesa-devel freeglut-devel tcl tk bwidget tcl-devel'
+
+GST_PACKAGES="gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad"
+GST_PACKAGES+=" gstreamer1.0-plugins-ugly gstreamer1.0-libav"
+GST_PACKAGES+=" gstreamer1.0-mpeg gstreamer1.0-lame gstreamer1.0-flac gstreamer1.0-mpeg2enc"
+
+$echo "The following packages are required to be installed for compiling Snowmix."
+$echo " pkgs: $BUILD_PACKAGES"
+$echo "Install packages (Y/N)? \c"
+read reply
+if [ "X$reply" = XY -o "X$reply" = Xy ] ; then
+  sudo urpmi $BUILD_PACKAGES
+else
+  $echo "No installation. You are on your own then. Press return to continue \c"
+  read reply
+fi
+$echo "The following packages are required to ise GStreamer with Snowmix."
+$echo " pkgs: $GST_PACKAGES"
+$echo "Install packages (Y/N)? \c"
+read reply
+if [ "X$reply" = XY -o "X$reply" = Xy ] ; then
+  sudo urpmi $GST_PACKAGES
+else
+  $echo "No installation of GStreamer plugins. You are on your own then. Press return to continue \c"
+  read reply
+fi
+
+

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+echo making frame
+echo -e "Width : \c"
+read width
+echo -e "height : \c"
+read height
+echo $width $height
+bytes=`expr $width "*" $height "*" 4`
+format=BGRA
+newframe_rgb="dead_"$width"x"$height".bgra"
+#format=RGBA
+#newframe_rgb="dead_"$width"x"$height".rgba"
+newframe_png="dead_"$width"x"$height".png"
+
+MIXERFORMAT='video/x-raw,format=(string)'$format',width=(int)'$width',height=(int)'$height',pixel-aspect-ratio=(fraction)1/1,interlaced=(boolean)false'
+gst-launch-1.0 -q -e videotestsrc num-buffers=1 ! $MIXERFORMAT ! filesink location=$newframe_rgb
+gst-launch-1.0 -q -e videotestsrc num-buffers=1 ! $MIXERFORMAT ! videoconvert ! avenc_png ! filesink location=$newframe_png
+#gst-launch-1.0 -q -e videotestsrc num-buffers=1 ! $MIXERFORMAT ! fdsink fd=1 | dd of=$newframe bs=$bytes count=1
+
+echo "New dead image frame file is $newframe_rgb and $newframe_png"

@@ -1,0 +1,19 @@
+<div class="content">
+
+	<div class="item">
+
+		<h1>Snowmix on Raspberry Pi</h1>
+		<div class="descr">Updated for Snowmix 0.5.2</div>
+
+		<a name="introduction"><h3>Introduction.</h3></a>
+		<br/>
+		<p>From version 0.5.2, Snowmix has enhanced support for the Raspberry Pi.
+		While Snowmix versions before 0.5.2 can compile and run on Raspberry Pi,
+		some functionality is missing thus lowering the usability of Snowmix on this
+		platform. Enhanced support is needed, not only because the missing functionality,
+		but also to compensate for the Raspberry Pi being a somewhat slower platform
+		compared to the x86 based multi core platform Snowmix originally was developed for.
+
+		<div align="right"><a href="">Top</a></div>
+	</div>
+</div>

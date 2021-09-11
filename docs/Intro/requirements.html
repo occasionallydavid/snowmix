@@ -1,0 +1,325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
+<meta name="description" content="Snowmix Video Mixer"/>
+<meta name="keywords" content="Snowmix Video Mixer,Video,Mixer,OpenGL,Cairo Graphics,GStreamer,Linux,FreeBSD,MacOS,OS X"/> 
+<meta name="author" content="Peter Maersk-Moller"/> 
+<meta name="copyright" content="Peter Maersk-Moller (c) 2015-2020"/> 
+<meta http-equiv="pragma" content="no-cache">
+<link rel="stylesheet" type="text/css" href="../default.css" media="screen"/>
+<link rel="shortcut icon" href="../img/Snowmix-logo-transparent-128x101.ico"/>
+<title>Snowmix - The Swiss Army Knife of Open Source Live Video Mixing.</title>
+</head>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-73603859-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+<body>
+
+<div class="container">
+
+	<div class="main">
+
+		<div class="header">
+
+			<div class="title">
+
+				<a name="top" href="../">
+				<h1>Snowmix - Live Video Mixer</h1>
+				<h3>The Swiss Army Knife of Open Source Live Video Mixing.</h3>
+			</a></div>
+
+			
+
+		</div>
+
+<div class="content">
+
+	<div class="item">
+
+		<h1>Requirements for Compiling, Installing and Running Snowmix.</h1>
+                <div class="descr">Updated for Snowmix 0.5.1.1</div>
+
+		<p>This page lists the supported platforms as well as the required hardware and software needed to compile, install and run Snowmix.</p>
+		<h3>Content</h3>
+		<ul>
+			<li><a href="#platforms">Supported Platforms</a>.
+			<li><a href="#hardware">Supported Hardware</a>.
+			<li><a href="#software">Required Software</a>.
+		</ul>
+
+	</div>
+
+	<div class="item">
+
+		<a name="platforms"><h1>Supported Platforms.</h1></a>
+	
+		<p>Snowmix is supported on a wide range of
+		<a href="https://en.wikipedia.org/wiki/Linux" target="_blank">Linux</a>
+		distributions and versions of
+		<a href="http://en.wikipedia.org/wiki/OS_X" target="_blank">macOS (OS X)</a>.</p>
+
+		<p>Snowmix version 0.5.1.1 release was tested on the following platforms:</p>
+		<ul>
+			<li>Linux <a href="https://www.ubuntu.com/" target="_blank">Ubuntu Desktop and Server</a> amd64/i386/i686/ARMv7.
+			<li>Linux <a href="https://www.debian.org/" target="_blank">Debian</a> amd64 and i386/i686.
+			<li>Linux <a href="https://www.centos.org/" target="_blank">CentOS</a> amd64 and i386/i686 (Fedora based).
+			<li>Linux <a href="https://www.chakralinux.org/" target="_blank">Chakra</a> amd64 and i386/i686 (Arch Based).
+			<li>Linux <a href="https://getfedora.org/" target="_blank">Fedora Live Desktop</a> amd64 and i386/i686.
+			<li>Linux <a href="https://www.mageia.org" target="_blank">Mageia</a> amd64 and i386/i686 (Mandriva originated).
+			<li>Linux <a href="https://manjaro.org/" target="_blank">Manjaro</a> amd64 and i386/i686 (Arch based).
+			<li>Linux <a href="https://www.linuxmint.com/" target="_blank">Mint</a> amd64 and i386/i686.
+			<li>Linux <a href="https://www.opensuse.org/" target="_blank">OpenSUSE</a> amd64 and i386/i686.
+			<li>Mac OS X <a href="http://en.wikipedia.org/wiki/El_Capitan" target="_blank">El Capitan</a>, <a href="http://en.wikipedia.org/wiki/OS_X_Yosemite" target="_blank">Yosemite</a>, <a href="http://en.wikipedia.org/wiki/OS_X_Mavericks" target="_blank">Mavericks</a>, <a href="http://en.wikipedia.org/wiki/OS_X_Mountain_Lion" target="_blank">Mountain Lion</a>, <a href="http://en.wikipedia.org/wiki/Mac_OS_X_Lion" target="_blank">Lion</a>.
+		</ul>
+
+		<p>For Snowmix 0.5.1, the following OS distributions was also supported, but testing for version 0.5.1.1 and newer has for now been cancelled.</p>
+
+		<ul>
+			<li>FreeBSD <a href="https://en.wikipedia.org/wiki/TrueOS" target="_blank">PCBSD and TrueOS</a> amd64.
+			<li>Linux <a href="https://www.linaro.org/" target="_blank">Linaro</a> ARMv7 (tested version 0.5.0 on ODROID U2)
+		</ul>
+
+		<p>A version of
+		<a href="https://en.wikipedia.org/wiki/FreeBSD" target="_blank">FreeBSD</a>
+		namely <a href="https://en.wikipedia.org/wiki/TrueOS" target="_blank">PCBSD/TrueOS</a> was partly supported on Snowmix version 0.5.1, but since
+		TrueOS is no longer maintained and online downloads of updated packages
+		are no longer available, Snowmix support for FreeBSD is for now discontinued.</p>
+
+		<p>For Windows, please see the <a href="../Intro/faq.html#windows">relevant section in the FAQ</a>.</p>
+		<div align="right"><a href="">Top</a></div>
+	</div>
+
+	<div class="item">
+
+		<a name="hardware"><h1>Supported Hardware.</h1></a>
+
+		<p>Snowmix is very relaxed with its hardware requirements and it has been
+		tested successfully on a variety of older and newer computers with i386/i686,
+		<a href="http://en.wikipedia.org/wiki/X86-64" target="_blank">amd64/x86_64</a> and
+		<a href="http://en.wikipedia.org/wiki/ARM_architecture" target="_blank">ARMv7</a> compatible processors.<p>
+
+		<p>Snowmix code until version 0.5.1 was being developed by the author on an old 2007
+		<a href="http://en.wikipedia.org/wiki/ThinkPad" target="_blank">Lenovo ThinkPad T61</a> with
+		2GB of RAM to ensure that Snowmix can run on a wide range of hardware including older hardware.
+		Newer version are being developed on slightly newer hardware with more cores and RAM.</p>
+
+		<p>Although Snowmix itself have very modest hardware requirements, a complete video
+		mixer system with many input pipelines decoding HD,FullHD, 4k or higher video,
+		Snowmix mixing highe resolution video and an output pipeline aggressively encoding high
+		quality low bandwidth video will require a substantial amount of both CPU
+		power and CPU to memory bandwidth.</p>
+
+		<p>The author is using Snowmix to produce Live television
+		<a href="https://www.youtube.com/watch?v=3IJTxa6iDso" target="_blank">rocket launches from the Baltic Sea</a>
+		for <a href="http://www.copsub.com/" target="_blank">Copenhagen Suborbitals</a>.
+		The productions are in FullHD <a href="https://en.wikipedia.org/wiki/1080p" target="_blank">1080p</a>
+		- 1920x1080@30fps with up to 14 camera input and up to 18 audio input on old
+		<a href="https://en.wikipedia.org/wiki/Lenovo_System_x" target="_blank">IBM/Lenovo X3690X5</a> servers
+		with with two <a href="https://ark.intel.com/content/www/us/en/ark/products/53578/intel-xeon-processor-e7-2870-30m-cache-2-40-ghz-6-40-gt-s-intel-qpi.html" target="_blank">Xeon 2.40G0Hz E7-2840 32nm Westmere</a>
+		CPUs, each with 10 cores (40 threads per server) and 32GB RAM in total although less is required.
+		This type of CPU was released for sale in 2011 so obviously Snowmix can run
+		on older hardware as well as very well on newer hardware. Snowmix only uses
+		a fraction of the CPU time as most CPU time on a complete multi core system
+		goes to decoding video and audio streams for input as well as encoding the
+		mixed audio and video stream for output.</p>
+
+		<p>Does this mean that you could build a really great 4k or higher mixer platform on a modern quad or dual Xeon or Ryzen Threadripper server? Heck yeah!.</p>
+
+		<div align="right"><a href="">Top</a></div>
+	</div>
+
+	<div class="item">
+
+		<a name="software"><h1>Required software.</h1></a>
+
+		<p>Snowmix depends on <a href="https://cairographics.org/" target="_blank">libcairo from CairoGraphics.org</a> and <a href="https://www.pango.org/" target="_blank">Pango</a> available for Linux, Mac OS X and Windows among others. Libcairo is already part of most Linux distributions. Prebuilt binaries are also available for Mac OS X and Windows although Pango on OS X may have to be built using <a href="https://www.macports.org/" target="_blank">MacPort</a> or <a href="https://brew.sh/" target="_blank">Homebrew</a>.</p>
+
+		<p>Snowmix also depends on <a href="https://www.libsdl.org/" target="_blank">SDL</a>, <a href="http://www.libpng.org/pub/png/libpng.html" target="_blank">libPNG</a> and <a href="https://www.tcl.tk/" target="_blank">Tcl/Tk</a> which all have multi-platform support including Linux, Mac OS X and Windows.</p>
+
+		<p>For configuring and compiling Snowmix, <a href="https://gcc.gnu.org/" target="_blank">gcc/g++</a>, <a href="https://www.gnu.org/software/make/" target="_blank">make</a> and <a href="https://www.gnu.org/software/automake/manual/html_node/Autotools-Introduction.html" target="_blank">autotools</a> are necessary.</p>
+
+		<p>The bootstrap script supplied with Snowmix will offer to check, download and install necessary tools, libraries and needed software for you.</p>
+
+		<p>Snowmix uses a <a href="https://en.wikipedia.org/wiki/Shared_memory" target="_blank">shared memory</a> model for efficiently inputting to and outputting video from Snowmix. The shared memory model is compliant with GStreamer <strong>shmsink</strong> and <strong>shmsrc</strong> so <a href="https://gstreamer.freedesktop.org/" target="_blank">Gstreamer</a> is recommended as required software too. All the scripts for inputting and outputting audio and video to and from Snowmix uses <a href="https://gstreamer.freedesktop.org/" target="_blank">Gstreamer</a>.</p>
+
+		<p>The table below list the packages needed to be installed for Snowmix to compile, run and test on each supported platform. Snowmix's boostrap script <strong>will detect platform and offer to install missing packages</strong>.</p>
+
+		<p>
+<table valign=top borderwidth=2>
+	<tr bgcolor=#CCD><td>Operating System</td><td>Version</td><td>Packages</td></tr>
+
+	<tr>
+		<td>Linux Ubuntu</td>
+		<td>16.04 LTS - 20.04 LTS</td>
+		<td>build-essential, automake, make, autoconf, libtool, g++, pkg-config, bc,
+			libpng-dev/libpng12-dev, libsdl1.2-dev, libpango1.0-dev, tcl-dev, tcl,
+			tk, bwidget, liborc-0.4-dev, gstreamer-tools and all gstreamer plugins available.<br/>
+			OpenGL requires also libosmesa6-dev and freeglut3-dev</td></tr>
+
+	<tr bgcolor=#EEE>
+		<td>Linux Debian</td>
+		<td>8.11-10.3</td>
+		<td>build-essential, make, automake, autoconf, libtool, g++, bc, pkg-config, libsdl1.2-dev,
+			libpango1.0-dev, libpng-dev/libpng12-dev, tcl-dev, tcl, tk, bwidget,
+			gstreamer1.0-tools, gstreamer1.0-plugins-base, gstreamer1.0-plugins-good,
+			gstreamer1.0-plugins-bad, gstreamer1.0-plugins-ugly, gstreamer1.0-libav</br>
+			OpenGL requires also libosmesa6-dev, freeglut3-dev and possible libglew-dev</td></tr>
+	<tr>
+		<td>Linux Mint</td>
+		<td>17.3-19.3 Cinnamon and 20 beta</td>
+		<td>build-essential, automake, make, autoconf, libtool, g++, pkg-config, bc,
+			libpng-dev/libpng12-dev, libsdl1.2-dev, libpango1.0-dev, tcl-dev, tcl,
+			tk, bwidget, liborc-0.4-dev, gstreamer-tools and all gstreamer plugins available.<br/>
+			OpenGL requires also libosmesa6-dev and freeglut3-dev</td></tr>
+	<tr bgcolor=#EEE>
+		<td>Linux CentOS</td>
+		<td>7.6-8.2</td>
+		<td>gcc, gcc-c++, autoconf, automake, make, bc, libtool, SDL-devel, libpng-devel, pango-devel, tcl, tcl-devel, tk, bwidget (and possibly liborc-devel)<br/>
+			OpenGL requires mesa-libOSMesa mesa-libOSMesa-devel freeglut-devel<br/>
+			GStreamer: gstreamer gstreamer-devel gstreamer-tools, gstreamer-plugins-base
+			gstreamer-plugins-good gstreamer-plugins-good-extras gstreamer-plugins-bad
+			gstreamer-plugins-bad-free gstreamer-plugins-bad-free-extras gstreamer-plugins-bad-nonfree
+			gstreamer-plugins-espeak gstreamer-plugins-fc plugins-ugly gstreamer-ffmpeg </td></tr>
+	<tr>
+		<td>Linux Fedora</td>
+		<td>Live Workstation 23, 28-32</td>
+		<td>gcc, gcc-c++, autoconf, automake, make, bc, libtool, SDL-devel, libpng12-devel, pango-devel, tcl, tcl-devel, tk, bwidget, orc-devel.<br/>
+			OpenGL requires mesa-libOSMesa-devel and freeglut-devel.</br>
+			GStreamer: gstreamer1 gstreamer1-plugins-base-tools gstreamer1-plugins-base
+				gstreamer1-plugins-good, gstreamer1-plugins-good-extras
+				gstreamer1-plugins-bad-free, gstreamer1-plugins-bad-free-extras
+				gstreamer1-plugins-bad-freeworld, gstreamer1-plugins-ugly
+				gstreamer1-libav
+		</td></tr>
+	<tr bgcolor=#EEE>
+		<td>Linux Chakra</td>
+		<td>2017.10 Euler</td>
+		<td>openbsd-netcat, bc, gst-libav, pkg-config, autoconf, automake, make, libtool, awk, gcc, bwidget<br/>
+			OpenGL requires OSMesa and libglut however the packages has not been identified.</td></tr>
+
+	<tr>
+		<td>Linux OpenSUSE</td>
+		<td>15.1-15.2 Leap</br>Tumbleweed&nbsp;20200717</td>
+		<td>autoconf, automake, make, libtool, gcc, gcc-c++, pkg-config, bc, libSDL-1_2-0, SDL-devel, libpng16, libpng16-devel, libcairo2, cairo-devel, libpango-1_0-0, pango-devel, tcl, tk, tcllib, tcl-devel, bwidget.<br/>
+			OpenGL requires libOSMesa-devel and libglut.<br/>
+			The following packages are useful for GStreamer support in the scripts: gstreamer, gstreamer-utils, gstreamer-plugins-base, gstreamer-plugins-good, gstreamer-plugins-bad, gstreamer-plugins-ugly, gstreamer-plugins-qt, ffmpeg, lame, gstreamer-plugins-ugly-orig-addo</td></tr>
+	<tr bgcolor=#EEE>
+		<td>Linux Mageia</td>
+		<td>7.1</td>
+		<td>gcc, make, automake, libtool, bc, pkg-config, gcc-c++, netcat-openbsd, SDL12,
+			libSDL-devel, libpng-devel, libcairo-devel, libpango-devel, cl, tk, bwidget, tcl-devel</br>
+		OpenGL requires osmesa-devel, freeglut-devel</br>
+		GStreamer:, gstreamer1.0-plugins-base, gstreamer1.0-plugins-good, gstreamer1.0-plugins-bad, gstreamer1.0-plugins-ugly,
+			gstreamer1.0-libav, gstreamer1.0-mpeg, gstreamer1.0-lame, gstreamer1.0-flac, gstreamer1.0-mpeg2enc</td></tr>
+	<tr>
+		<td>Linux Manjaro</td>
+		<td>XFCE 20.0.3</td>
+		<td>openbsd-netcat, bc, gst-libav, pkg-config, autoconf, automake, make, libtool, awk, gcc, bwidget<br/>
+			OpenGL requires OSMesa and libglut however the packages has not been identified.</td></tr>
+
+	<tr bgcolor=#EEE><td>Mac OS X</td>
+		<td>Lion 10.7</td><td>Xcode, Xcode Command Line Tools, port, autoconf, automake, libtool, pkgconfig, pango, cairo, libsdl, libpng, gstreamer</td></tr>
+	<tr><td>OS X</td>
+		<td>Mountain Lion 10.8</td><td>Xcode, Xcode Command Line Tools, port, autoconf, automake, libtool, pkgconfig, pango, cairo, libsdl, libpng, gstreamer</td></tr>
+	<tr bgcolor=#EEE><td valign=top>OS X</td>
+		<td valign=top>Mavericks 10.9</td><td>Xcode, Xcode Command Line Tools, port, autoconf, automake, libtool, pkgconfig, pango, cairo, libsdl, libpng, gstreamer</td></tr>
+	<tr><td valign=top>OS X</td>
+		<td valign=top>Yosemite 10.10</td><td>Xcode, Xcode Command Line Tools, port, autoconf, automake, libtool, pkgconfig, pango, cairo, libsdl, libpng, gstreamer</td></tr>
+	<tr bgcolor=#EEE><td valign=top>OS X</td>
+		<td valign=top>El Capitan 10.11</td><td>Xcode, Xcode Command Line Tools, port, autoconf, automake, libtool, pkgconfig, pango, cairo, libsdl, libpng, gstreamer</td></tr>
+	<tr><td valign=top>macOS</td>
+		<td valign=top>Sierra 10.12</td><td>Xcode, Xcode Command Line Tools, port, autoconf, automake, libtool, pkgconfig, pango, cairo, libsdl, libpng, gstreamer</td></tr>
+	<tr bgcolor=#EEE><td valign=top>macOS</td>
+		<td valign=top>High Sierra 10.13</td><td>Xcode, Xcode Command Line Tools, port, autoconf, automake, libtool, pkgconfig, pango, cairo, libsdl, libpng, gstreamer</td></tr>
+	<tr><td valign=top>macOS</td>
+		<td valign=top>Mojave 10.14</td><td>Xcode, Xcode Command Line Tools, port, autoconf, automake, libtool, pkgconfig, pango, cairo, libsdl, libpng, gstreamer</td></tr>
+	<tr bgcolor=#EEE><td valign=top>macOS</td>
+		<td valign=top>Catalina 10.15</td><td>Xcode, Xcode Command Line Tools, port, autoconf, automake, libtool, pkgconfig, pango, cairo, libsdl, libpng, gstreamer</td></tr>
+	<tr><td valign=top>macOS</td>
+		<td valign=top>Big Sur 10.16</td><td>Xcode, Xcode Command Line Tools, port, autoconf, automake, libtool, pkgconfig, pango, cairo, libsdl, libpng, gstreamer</td></tr>
+</table>
+		</p>
+
+
+		<div align="right"><a href="">Top</a></div>
+	</div>
+</div>
+		<div class="sidenav">
+			<div>&nbsp;</div>
+			<div align="center">
+				<a href="../Intro/donations.html"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif" border="0" alt="Consider donate to the Snowmix, the Open Source Video Mixer."/></a>
+			</div>
+			<h1>Intro</h1>
+			<div class="sidenavintro">
+			<ul>
+				<li><a href="../Intro/about.html">About</a></li>
+				<li><a href="../Intro/news.html">News</a></li>
+				<li><a href="../Intro/faq.html">FAQ</a></li>
+				<li><a href="../Intro/screenshots.html">Screenshots</a></li>
+				<li><a href="../Intro/downloads.html">Downloads</a></li>
+				<li><a href="../Intro/requirements.html">Requirements</a></li>
+				<li><a href="../Intro/compileandinstall.html">Compile &amp; Install</a></li>
+				<li><a href="../Intro/support.html">Support &amp; Forum</a></li>
+				<li><a href="../Intro/donations.html">Donate to Snowmix</a></li>
+			</ul>
+			</div>
+
+			<h1>Documentation</h1>
+			<ul>
+				<li><a href="../Documentation/reserved.html">Reserved Commands</a></li>
+				<li><a href="../Documentation/reference.html">Reference Manuals</a></li>
+				<li><a href="../Documentation/guides.html">Snowmix Guides</a></li>
+				<li><a href="../Documentation/releasenotes.html">Release Notes</a></li>
+				<li><a href="../Documentation/changelog.html">ChangeLog</a></li>
+				<li><a href="../Documentation/developmentplans.html">Development Plans</a></li>
+				<li><a href="../Documentation/endoflife.html">End of Life</a></li>
+				<li><a href="../Raspberry/intro.html">Raspberry Pi</a></li>
+			</ul>
+
+			<h1>Examples</h1>
+			<ul>
+				<li><a href="../Examples/basic.html">Basic Configurations</a></li>
+				<li><a href="../Examples/input.html">Input with GStreamer</a></li>
+				<li><a href="../Examples/output.html">Output with Gstreamer</a></li>
+				<li><a href="../Examples/scripting.html">Basic Scripting</a></li>
+			</ul>
+
+			<h1>Advanced Topics</h1>
+			<ul>
+				<li><a href="../Advanced/scripting.html">Advanced Scripting</a></li>
+				<li><a href="../Advanced/libraries.html">Snowmix Libraries</a></li>
+				<li><a href="../Advanced/transitions.html">Video Transitions</a></li>
+			</ul>
+			<div>
+			<h1>Snowmix Search</h1>
+			<form name="cse" id="searchbox_demo" action="https://www.google.com/cse">
+  <input type="hidden" name="cx" value="007204516718911784955:qp5rcmqataw" />
+  <input type="hidden" name="cref" value="" />
+  <input type="hidden" name="ie" value="utf-8" />
+  <input type="hidden" name="hl" value="" />
+  <input name="q" type="text" size="20" enabled />
+  <input type="submit" name="sa" value="Search" />
+</form>
+<script type="text/javascript" src="https%3A%2F%2Fcse.google.com%2Fcse/tools/onthefly?form=searchbox_demo&amp;lang="></script>
+			</div>
+
+		</div>
+	
+		<div class="clearer"><span></span></div>
+
+	</div>
+	<div class="footer">Copyright &copy; 2012-2016 Peter Maersk-Moller. - Inital weblayout &copy; 2006 <a href="index.html">Website.com</a>. Valid <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> &amp; <a href="http://validator.w3.org/check?uri=referer">XHTML</a>. Template design by <a href="http://templates.arcsin.se">Arcsin</a>
+	</div>
+</div>
+</body>
+</html>
