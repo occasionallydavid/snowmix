@@ -419,7 +419,7 @@ void AddBufferToQueues(audio_queue_t* pQueue, audio_buffer_t* buf, u_int32_t typ
 			pQueue->pNext ? "ptr" : "null");
 #else
 #if __WORDSIZE == 64
-			"Frame %u - audio %s %u buf "FUI64" newbuf "FUI64" pQueue->next %s\n",
+			"Frame %u - audio %s %u buf " FUI64 " newbuf " FUI64 " pQueue->next %s\n",
 			systemframeno,
 			type == 0 ? "feed" : type == 1 ? "mixer" : type == 2 ? "sink" : "unknown",
 			id, (u_int64_t)buf, (u_int64_t)newbuf,
@@ -440,7 +440,7 @@ void AddBufferToQueues(audio_queue_t* pQueue, audio_buffer_t* buf, u_int32_t typ
 				id, (u_int32_t) newbuf);
 #else
 #if __WORDSIZE == 64
-				"Frame %u - audio %s %u 0A newbuf "FUI64"\n",
+				"Frame %u - audio %s %u 0A newbuf " FUI64 "\n",
 				systemframeno,
 				type == 0 ? "feed" : type == 1 ? "mixer" : type == 2 ? "sink" : "unknown",
 				id, (u_int64_t) newbuf);
@@ -495,7 +495,7 @@ void AddBufferToQueues(audio_queue_t* pQueue, audio_buffer_t* buf, u_int32_t typ
 				newbuf->seq_no, (u_int32_t) newbuf);
 #else
 #if __WORDSIZE == 64
-				"buf seq no %u. Had %u bytes, has %u bytes seq no %u newbuf "FUI64"\n",
+				"buf seq no %u. Had %u bytes, has %u bytes seq no %u newbuf " FUI64 "\n",
 				systemframeno,
 				type == 0 ? "feed" : type == 1 ? "mixer" : type == 2 ? "sink" : "unknown",
 				id, buf->seq_no, buf->len, newbuf->len,
@@ -544,7 +544,7 @@ void AddBufferToQueues(audio_queue_t* pQueue, audio_buffer_t* buf, u_int32_t typ
 			pQueue->pAudioTail ? "ptr" : "null", (u_int32_t) newbuf );
 #else
 #if __WORDSIZE == 64
-			"seq no %u len %u next %s pQueue->tail %s newbuf addr "FUI64"\n",
+			"seq no %u len %u next %s pQueue->tail %s newbuf addr " FUI64 "\n",
 			systemframeno,
 			type == 0 ? "feed" : type == 1 ? "mixer" : type == 2 ? "sink" : "unknown",
 			id, newbuf->seq_no, newbuf->len, newbuf->next ? "ptr" : "null",
