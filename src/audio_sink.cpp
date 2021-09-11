@@ -1068,7 +1068,8 @@ int CAudioSink::set_sink_add(struct controller_type* ctr, const char* str)
 	}
 	// Get the sink id.
 	if ((n = sscanf(str, "%u", &id)) != 1) return -1;
-	while (isdigit(*str)) str++; while (isspace(*str)) str++;
+	while (isdigit(*str)) str++;
+	while (isspace(*str)) str++;
 
 	// Now if eos, only id was given and we delete the sink
 	if (!(*str)) {
@@ -2531,10 +2532,11 @@ writetime = timenow;
 
 		// We wrote data
 		if (n > 0) {
-if (m_verbose > 1 && ((unsigned) n) != buf->len) fprintf(stderr, "Frame %u - audio sink %u wrote less %d %u.\n",
-                        SYSTEM_FRAME_NO, id, n, buf->len);
-else if (m_verbose > 4) fprintf(stderr, "Frame %u - audio sink %u wrote %d == %u. errno %d\n",
-                        SYSTEM_FRAME_NO, id, n, buf->len, errno);
+			if (m_verbose > 1 && ((unsigned) n) != buf->len) fprintf(stderr, "Frame %u - audio sink %u wrote less %d %u.\n",
+									SYSTEM_FRAME_NO, id, n, buf->len);
+			else if (m_verbose > 4) fprintf(stderr, "Frame %u - audio sink %u wrote %d == %u. errno %d\n",
+									SYSTEM_FRAME_NO, id, n, buf->len, errno);
+
 			written += n;
 			buf->data += n;
 			buf->len -= n;
