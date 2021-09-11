@@ -759,7 +759,8 @@ int CAudioFeed::set_feed_add(struct controller_type* ctr, const char* str)
 	}
 	// Get the feed id.
 	if ((n = sscanf(str, "%u", &id)) != 1) return -1;
-	while (isdigit(*str)) str++; while (isspace(*str)) str++;
+	while (isdigit(*str)) str++;
+	while (isspace(*str)) str++;
 
 	//n = -1;
 	// Now if eos, only id was given and we delete the feed
