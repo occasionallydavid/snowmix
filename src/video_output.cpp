@@ -816,7 +816,7 @@ timersub(&next_time, &time_now, &time_delta2);
 		// Lock region and perhaps grab a buffer
 		SDL_LockMutex(m_pOutputMutex);
 if (verbose) fprintf(stderr, "Frame %04u : %03ld.%03d, next %ld.%03d\n - region locked. buffer count %u\n",
-	SYSTEM_FRAME_NO, time_delta1.tv_sec, time_delta1.tv_usec/1000, time_delta2.tv_sec, time_delta2.tv_usec/1000, m_buffer_count);
+	SYSTEM_FRAME_NO, time_delta1.tv_sec, (int)time_delta1.tv_usec/1000, time_delta2.tv_sec, (int)time_delta2.tv_usec/1000, m_buffer_count);
 
 		  // Check that we honour the delay. If we have to few buffers ready, we have to
 		  // reuse an old one.
