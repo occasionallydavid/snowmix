@@ -20,6 +20,8 @@
 #define MIN_SYSTEM_FRAME_RATE 1
 #define MAX_SYSTEM_FRAME_RATE 100
 
+#define LINE_BUF_SIZE 2048
+
 struct output_buffer_t {
 	u_int8_t*		data;	// Pointer to data of buffer;
 	int32_t			len;	// data len
@@ -33,7 +35,7 @@ struct controller_type {
 	int		read_fd;	// File descriptor for receiving commands.
 	int		write_fd;	// File descriptor for transmitting
 					// status/error messages.
-	char		linebuf [2048];	// Buffer for retrieving commands.
+	char		linebuf [LINE_BUF_SIZE];	// Buffer for retrieving commands.
 	int		got_bytes;	// Number of bytes already read into linebuf.
 	output_buffer_t* output_buffers;	// List of buffers to output
 	bool		is_audio;	// Using the connection for audio stream

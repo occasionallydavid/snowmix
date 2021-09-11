@@ -1311,7 +1311,7 @@ void CController::CheckReadWrite(CVideoMixer* pVideoMixer, fd_set *rfds, fd_set 
 
 		/* Check if the buffer contains a full line. */
 		while ((ci = index (ctr->linebuf, '\n')) != NULL) {
-			char	line [1024];
+			char	line [LINE_BUF_SIZE];
 
 			/* Yes. Copy the line to a new buffer. */
 			ci = ctr->linebuf;
