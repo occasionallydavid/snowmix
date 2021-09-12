@@ -1170,7 +1170,7 @@ int CVideoOutput::InitOutput(struct controller_type *ctr, char *path)
 		m_output_memory_handle = shm_open (m_output_memory_handle_name,
 				O_RDWR | O_CREAT | O_EXCL,  S_IRUSR | S_IWUSR | S_IRGRP);
 #else
-		sprintf (m_output_memory_handle_name, "/shmpipe.%5d.%5d", pid, no);
+		sprintf (m_output_memory_handle_name, "/shmpipe.%05d.%05d", pid, no);
 		//sprintf (m_output_memory_handle_name, "/snowmix_shmpipe.%d.%d", pid, no);
 		m_output_memory_handle =
 			shm_open (m_output_memory_handle_name,
